@@ -34,7 +34,7 @@ func main() {
 
 	tunnelClient := tunnel.NewHttpClient()
 
-	tresp, err := tunnelClient.HttpClient.Get(fmt.Sprintf("http://%s/v1/apps/dovdotdev", "_api.internal"))
+	tresp, err := tunnelClient.HttpClient.Get(fmt.Sprintf("http://%s:4280/v1/apps/dovdotdev", "_api.internal"))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
