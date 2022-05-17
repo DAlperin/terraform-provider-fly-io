@@ -9,3 +9,6 @@ type certDataSource struct {
 type ipDataSource struct {
 	provider provider
 }
+type volumeDataSource struct {
+	provider provider
+}
