@@ -35,7 +35,7 @@ type flyCertResourceData struct {
 
 func (t flyCertResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
-		MarkdownDescription: "Fly volume resource",
+		MarkdownDescription: "Fly certificate resource",
 		Attributes: map[string]tfsdk.Attribute{
 			"app": {
 				MarkdownDescription: "Name of app to attach",

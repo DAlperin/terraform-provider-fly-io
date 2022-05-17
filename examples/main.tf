@@ -8,7 +8,7 @@ terraform {
 
 resource "fly_app" "exampleApp" {
   name    = "hellofromterraform"
-  regions = ["ewr", "ord", "lax"]
+  regions = ["ewr", "ord", "lax", "mia"]
 }
 
 resource "fly_volume" "exampleVol" {
@@ -31,11 +31,11 @@ resource "fly_ip" "exampleIpv6" {
   depends_on = [fly_ip.exampleIp]
 }
 
-#resource "fly_cert" "exampleCert" {
-#  app        = "hellofromterraform"
-#  hostname   = "example.com"
-#  depends_on = [fly_app.exampleApp]
-#}
+resource "fly_cert" "exampleCert" {
+  app        = "hellofromterraform"
+  hostname   = "example.com"
+  depends_on = [fly_app.exampleApp]
+}
 
 # Example of using resource value. Can be used to, for example set dns with other providers.
 output "testipv4" {

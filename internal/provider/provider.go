@@ -78,7 +78,7 @@ func (p *provider) GetResources(ctx context.Context) (map[string]tfsdk.ResourceT
 		"fly_app":    flyAppResourceType{},
 		"fly_volume": flyVolumeResourceType{},
 		"fly_ip":     flyIpResourceType{},
-		"fly_cert":   flyPgResourceType{},
+		"fly_cert":   flyCertResourceType{},
 	}, nil
 }
 
