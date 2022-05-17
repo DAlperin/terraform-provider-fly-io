@@ -3,12 +3,12 @@
 page_title: "fly_cert Data Source - terraform-provider-fly"
 subcategory: ""
 description: |-
-  Fly volume resource
+  Fly certificate data source
 ---
 
 # fly_cert (Data Source)
 
-Fly volume resource
+Fly certificate data source
 
 
 

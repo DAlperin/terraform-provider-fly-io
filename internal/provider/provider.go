@@ -86,6 +86,7 @@ func (p *provider) GetDataSources(ctx context.Context) (map[string]tfsdk.DataSou
 	return map[string]tfsdk.DataSourceType{
 		"fly_app":  appDataSourceType{},
 		"fly_cert": certDataSourceType{},
+		"fly_ip":   ipDataSourceType{},
 	}, nil
 }
 
