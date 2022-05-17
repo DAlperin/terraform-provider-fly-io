@@ -32,7 +32,7 @@ type flyMachineResourceData struct {
 	Type    types.String `tfsdk:"type"`
 }
 
-func (t flyMachineResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
+func (mr flyMachineResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
 		MarkdownDescription: "Fly volume resource",
 		Attributes: map[string]tfsdk.Attribute{
@@ -68,7 +68,7 @@ func (t flyMachineResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.D
 	}, nil
 }
 
-func (t flyMachineResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
+func (mr flyMachineResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
 	provider, diags := convertProviderType(in)
 
 	return flyMachineResource{

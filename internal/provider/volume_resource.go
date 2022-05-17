@@ -78,13 +78,13 @@ func (t flyVolumeResourceType) NewResource(ctx context.Context, in tfsdk.Provide
 	}, diags
 }
 
-func (r flyVolumeResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
+func (vr flyVolumeResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
 	var data flyVolumeResourceData
 
 	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
-	q, err := graphql.CreateVolume(context.Background(), *r.provider.client, data.Appid.Value, data.Name.Value, data.Region.Value, int(data.Size.Value))
+	q, err := graphql.CreateVolume(context.Background(), *vr.provider.client, data.Appid.Value, data.Name.Value, data.Region.Value, int(data.Size.Value))
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to create volume", err.Error())
 	}
@@ -107,7 +107,7 @@ func (r flyVolumeResource) Create(ctx context.Context, req tfsdk.CreateResourceR
 	}
 }
 
-func (r flyVolumeResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
+func (vr flyVolumeResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
 	var data flyVolumeResourceData
 
 	diags := req.State.Get(ctx, &data)
@@ -116,7 +116,7 @@ func (r flyVolumeResource) Read(ctx context.Context, req tfsdk.ReadResourceReque
 	internalId := data.Internalid.Value
 	app := data.Appid.Value
 
-	query, err := graphql.VolumeQuery(context.Background(), *r.provider.client, app, internalId)
+	query, err := graphql.VolumeQuery(context.Background(), *vr.provider.client, app, internalId)
 	if err != nil {
 		resp.Diagnostics.AddError("Read: query failed", err.Error())
 	}
@@ -137,19 +137,19 @@ func (r flyVolumeResource) Read(ctx context.Context, req tfsdk.ReadResourceReque
 	}
 }
 
-func (r flyVolumeResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
+func (vr flyVolumeResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
 	resp.Diagnostics.AddError("The fly api does not allow updating volumes once created", "Try deleting and then recreating a volume with new options")
 	return
 }
 
-func (r flyVolumeResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
+func (vr flyVolumeResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
 	var data flyVolumeResourceData
 
 	diags := req.State.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
 	if !data.Id.Unknown && !data.Id.Null && data.Id.Value != "" {
-		_, err := graphql.DeleteVolume(context.Background(), *r.provider.client, data.Id.Value)
+		_, err := graphql.DeleteVolume(context.Background(), *vr.provider.client, data.Id.Value)
 		if err != nil {
 			resp.Diagnostics.AddError("Delete volume failed", err.Error())
 		}
@@ -162,6 +162,6 @@ func (r flyVolumeResource) Delete(ctx context.Context, req tfsdk.DeleteResourceR
 	}
 }
 
-func (r flyVolumeResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
+func (vr flyVolumeResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
 	tfsdk.ResourceImportStatePassthroughID(ctx, tftypes.NewAttributePath().WithAttributeName("id"), req, resp)
 }

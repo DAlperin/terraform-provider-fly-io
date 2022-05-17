@@ -6,3 +6,6 @@ type appDataSource struct {
 type certDataSource struct {
 	provider provider
 }
+type ipDataSource struct {
+	provider provider
+}

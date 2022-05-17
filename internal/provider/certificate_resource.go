@@ -84,13 +84,13 @@ func (t flyCertResourceType) NewResource(ctx context.Context, in tfsdk.Provider)
 	}, diags
 }
 
-func (r flyCertResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
+func (cr flyCertResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
 	var data flyCertResourceData
 
 	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
-	q, err := graphql.AddCertificate(context.Background(), *r.provider.client, data.Appid.Value, data.Hostname.Value)
+	q, err := graphql.AddCertificate(context.Background(), *cr.provider.client, data.Appid.Value, data.Hostname.Value)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to create cert", err.Error())
 	}
@@ -114,7 +114,7 @@ func (r flyCertResource) Create(ctx context.Context, req tfsdk.CreateResourceReq
 	}
 }
 
-func (r flyCertResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
+func (cr flyCertResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
 	var data flyCertResourceData
 
 	diags := req.State.Get(ctx, &data)
@@ -123,7 +123,7 @@ func (r flyCertResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest
 	hostname := data.Hostname.Value
 	app := data.Appid.Value
 
-	query, err := graphql.GetCertificate(context.Background(), *r.provider.client, app, hostname)
+	query, err := graphql.GetCertificate(context.Background(), *cr.provider.client, app, hostname)
 	var errList gqlerror.List
 	if errors.As(err, &errList) {
 		for _, err := range errList {
@@ -153,18 +153,18 @@ func (r flyCertResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest
 	}
 }
 
-func (r flyCertResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
+func (cr flyCertResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
 	resp.Diagnostics.AddError("The fly api does not allow updating certs once created", "Try deleting and then recreating the cert with new options")
 	return
 }
 
-func (r flyCertResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
+func (cr flyCertResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
 	var data flyCertResourceData
 
 	diags := req.State.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
-	_, err := graphql.DeleteCertificate(context.Background(), *r.provider.client, data.Appid.Value, data.Hostname.Value)
+	_, err := graphql.DeleteCertificate(context.Background(), *cr.provider.client, data.Appid.Value, data.Hostname.Value)
 	if err != nil {
 		resp.Diagnostics.AddError("Delete cert failed", err.Error())
 	}
@@ -176,6 +176,6 @@ func (r flyCertResource) Delete(ctx context.Context, req tfsdk.DeleteResourceReq
 	}
 }
 
-func (r flyCertResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
+func (cr flyCertResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
 	tfsdk.ResourceImportStatePassthroughID(ctx, tftypes.NewAttributePath().WithAttributeName("id"), req, resp)
 }

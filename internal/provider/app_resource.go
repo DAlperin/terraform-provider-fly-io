@@ -30,7 +30,7 @@ type flyAppResourceData struct {
 	Regions         []types.String `tfsdk:"regions"`
 }
 
-func (t flyAppResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
+func (ar flyAppResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
 		// This description is used by the documentation generator and the language server.
 		MarkdownDescription: "Fly app resource",
@@ -75,7 +75,7 @@ func (t flyAppResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagn
 	}, nil
 }
 
-func (t flyAppResourceType) NewResource(_ context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
+func (ar flyAppResourceType) NewResource(_ context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
 	provider, diags := convertProviderType(in)
 
 	return flyAppResource{

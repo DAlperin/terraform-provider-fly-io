@@ -76,13 +76,13 @@ func (t flyIpResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (
 	}, diags
 }
 
-func (r flyIpResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
+func (ir flyIpResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
 	var data flyIpResourceData
 
 	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
-	q, err := graphql.AllocateIpAddress(context.Background(), *r.provider.client, data.Appid.Value, data.Region.Value, graphql.IPAddressType(data.Type.Value))
+	q, err := graphql.AllocateIpAddress(context.Background(), *ir.provider.client, data.Appid.Value, data.Region.Value, graphql.IPAddressType(data.Type.Value))
 	tflog.Info(ctx, fmt.Sprintf("query res in create ip: %+v", q))
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to create ip addr", err.Error())
@@ -105,7 +105,7 @@ func (r flyIpResource) Create(ctx context.Context, req tfsdk.CreateResourceReque
 	}
 }
 
-func (r flyIpResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
+func (ir flyIpResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
 	var data flyIpResourceData
 
 	diags := req.State.Get(ctx, &data)
@@ -115,7 +115,7 @@ func (r flyIpResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, 
 	app := data.Appid.Value
 
 	//tflog.Info(ctx, fmt.Sprintf("%s, %s", app, addr))
-	query, err := graphql.IpAddressQuery(context.Background(), *r.provider.client, app, addr)
+	query, err := graphql.IpAddressQuery(context.Background(), *ir.provider.client, app, addr)
 	tflog.Info(ctx, fmt.Sprintf("Query res: for %s %s %+v", app, addr, query))
 	var errList gqlerror.List
 	if errors.As(err, &errList) {
@@ -145,19 +145,19 @@ func (r flyIpResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, 
 	}
 }
 
-func (r flyIpResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
+func (ir flyIpResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
 	resp.Diagnostics.AddError("The fly api does not allow updating ips once created", "Try deleting and then recreating the ip with new options")
 	return
 }
 
-func (r flyIpResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
+func (ir flyIpResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
 	var data flyIpResourceData
 
 	diags := req.State.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
 	if !data.Id.Unknown && !data.Id.Null && data.Id.Value != "" {
-		_, err := graphql.ReleaseIpAddress(context.Background(), *r.provider.client, data.Id.Value)
+		_, err := graphql.ReleaseIpAddress(context.Background(), *ir.provider.client, data.Id.Value)
 		if err != nil {
 			resp.Diagnostics.AddError("Release ip failed", err.Error())
 		}
@@ -170,6 +170,6 @@ func (r flyIpResource) Delete(ctx context.Context, req tfsdk.DeleteResourceReque
 	}
 }
 
-func (r flyIpResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
+func (ir flyIpResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
 	tfsdk.ResourceImportStatePassthroughID(ctx, tftypes.NewAttributePath().WithAttributeName("id"), req, resp)
 }

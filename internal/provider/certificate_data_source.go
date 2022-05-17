@@ -29,7 +29,7 @@ type certDataSourceOutput struct {
 
 func (t certDataSourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
-		MarkdownDescription: "Fly volume resource",
+		MarkdownDescription: "Fly certificate data source",
 		Attributes: map[string]tfsdk.Attribute{
 			"app": {
 				MarkdownDescription: "Name of app to attach",
