@@ -3,12 +3,12 @@
 page_title: "fly_cert Resource - terraform-provider-fly"
 subcategory: ""
 description: |-
-  Fly volume resource
+  Fly postgres resource
 ---
 
 # fly_cert (Resource)
 
-Fly volume resource
+Fly postgres resource
 
 ## Example Usage
 
@@ -24,14 +24,18 @@ resource "fly_cert" "exampleCert" {
 
 ### Required
 
-- `app` (String) Name of app to attach
-- `hostname` (String) hostname
+- `name` (String) Name of cluster
+- `region` (String) Starting region
+
+### Optional
+
+- `org` (String) Optional org ID to operate upon
+- `password` (String) Database password
+- `vmsize` (Number) Fly instance type (defaults to shared-cpu-1x)
+- `volumesize` (Number) Persistent storage size
 
 ### Read-Only
 
-- `check` (Boolean) check
-- `dnsvalidationhostname` (String) DnsValidationHostname
-- `dnsvalidationtarget` (String) DnsValidationTarget
-- `id` (String) ID of address
+- `username` (String) Database password
 
 
