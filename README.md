@@ -7,3 +7,18 @@
 </div>
 
 > ⚠️ _If you are a company or individual who finds this useful and would like to see it continued to be developed please consider supporting me via GH sponsors (or [hiring me](https://dov.dev) for all your contract development needs!). I am a student so sponsoring me helps me find more time to work on open source. Thank you!_
+
+## Status
+
+### Resources
+- app (stable)
+- cert (stable)
+- ip (stable)
+- volume (stable)
+- machines (wip)
+- postgres (todo)
+
+### Data sources
+- app (stable)
+- cert (stable)
+- ip (stable)
