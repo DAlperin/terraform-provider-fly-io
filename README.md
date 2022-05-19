@@ -2,7 +2,7 @@
 
 <div style="text-align: center;">
 
-![https://github.com/sponsors/DAlperin](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)
+[![https://github.com/sponsors/DAlperin](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/DAlperin)
 
 </div>
 
