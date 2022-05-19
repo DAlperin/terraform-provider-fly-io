@@ -99,7 +99,7 @@ type CreateMachineResponse struct {
 
 func (mr flyMachineResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
-		MarkdownDescription: "Fly volume resource",
+		MarkdownDescription: "Fly machine resource",
 		Attributes: map[string]tfsdk.Attribute{
 			"name": {
 				MarkdownDescription: "machine name",

@@ -34,7 +34,7 @@ type flyIpResourceData struct {
 
 func (t flyIpResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
-		MarkdownDescription: "Fly volume resource",
+		MarkdownDescription: "Fly ip resource",
 		Attributes: map[string]tfsdk.Attribute{
 			"address": {
 				MarkdownDescription: "ID of volume",
