@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"dov.dev/fly/fly-provider/internal/utils"
 	"fmt"
 	"github.com/Khan/genqlient/graphql"
 	"net/http"
@@ -18,22 +19,12 @@ var _ tfsdk.Provider = &provider{}
 type provider struct {
 	configured bool
 	version    string
+	token      string
 	client     *graphql.Client
 }
 
 type providerData struct {
 	FlyToken types.String `tfsdk:"flytoken"`
-}
-
-type transport struct {
-	underlyingTransport http.RoundTripper
-	token               string
-	ctx                 context.Context
-}
-
-func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Add("Authorization", "Bearer "+t.token)
-	return t.underlyingTransport.RoundTrip(req)
 }
 
 func (p *provider) Configure(ctx context.Context, req tfsdk.ConfigureProviderRequest, resp *tfsdk.ConfigureProviderResponse) {
@@ -66,9 +57,10 @@ func (p *provider) Configure(ctx context.Context, req tfsdk.ConfigureProviderReq
 	}
 
 	// TODO: Make timeout configurable
-	h := http.Client{Timeout: 60 * time.Second, Transport: &transport{underlyingTransport: http.DefaultTransport, token: token, ctx: ctx}}
+	h := http.Client{Timeout: 60 * time.Second, Transport: &utils.Transport{UnderlyingTransport: http.DefaultTransport, Token: token, Ctx: ctx}}
 	client := graphql.NewClient("https://api.fly.io/graphql", &h)
 	p.client = &client
+	p.token = token
 
 	p.configured = true
 }
@@ -79,6 +71,9 @@ func (p *provider) GetResources(ctx context.Context) (map[string]tfsdk.ResourceT
 		"fly_volume": flyVolumeResourceType{},
 		"fly_ip":     flyIpResourceType{},
 		"fly_cert":   flyCertResourceType{},
+		"fly_machine": flyMachineResourceType{
+			Token: p.token,
+		},
 	}, nil
 }
 

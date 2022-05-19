@@ -7,6 +7,9 @@ query GetFullApp($name: String) {
         }
         autoscaling {
             preferredRegion
+            regions {
+                code
+            }
         }
         appUrl
         hostname

@@ -868,12 +868,29 @@ func (v *GetFullAppApp) __premarshalJSON() (*__premarshalGetFullAppApp, error) {
 
 // GetFullAppAppAutoscalingAutoscalingConfig includes the requested fields of the GraphQL type AutoscalingConfig.
 type GetFullAppAppAutoscalingAutoscalingConfig struct {
-	PreferredRegion string `json:"preferredRegion"`
+	PreferredRegion string                                                                  `json:"preferredRegion"`
+	Regions         []GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig `json:"regions"`
 }
 
 // GetPreferredRegion returns GetFullAppAppAutoscalingAutoscalingConfig.PreferredRegion, and is useful for accessing the field via an interface.
 func (v *GetFullAppAppAutoscalingAutoscalingConfig) GetPreferredRegion() string {
 	return v.PreferredRegion
+}
+
+// GetRegions returns GetFullAppAppAutoscalingAutoscalingConfig.Regions, and is useful for accessing the field via an interface.
+func (v *GetFullAppAppAutoscalingAutoscalingConfig) GetRegions() []GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig {
+	return v.Regions
+}
+
+// GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig includes the requested fields of the GraphQL type AutoscaleRegionConfig.
+type GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig struct {
+	// The region code
+	Code string `json:"code"`
+}
+
+// GetCode returns GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig.Code, and is useful for accessing the field via an interface.
+func (v *GetFullAppAppAutoscalingAutoscalingConfigRegionsAutoscaleRegionConfig) GetCode() string {
+	return v.Code
 }
 
 // GetFullAppAppConfig includes the requested fields of the GraphQL type AppConfig.
@@ -2092,6 +2109,9 @@ query GetFullApp ($name: String) {
 		}
 		autoscaling {
 			preferredRegion
+			regions {
+				code
+			}
 		}
 		appUrl
 		hostname

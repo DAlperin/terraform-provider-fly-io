@@ -15,7 +15,11 @@
 - cert (stable)
 - ip (stable)
 - volume (stable)
-- machines (wip)
+- machines (beta)
+  - missing:
+    - machine start/stop
+    - block on machine start
+    - native wireguard tunnel
 - postgres (todo)
 
 ### Data sources
@@ -23,3 +27,8 @@
 - cert (stable)
 - ip (stable)
 - volume (stable)
+
+
+### TODO
+
+1. Build abstraction around querying local tunnel

@@ -3,12 +3,12 @@
 page_title: "fly_cert Resource - terraform-provider-fly"
 subcategory: ""
 description: |-
-  Fly volume resource
+  Fly certificate resource
 ---
 
 # fly_cert (Resource)
 
-Fly volume resource
+Fly certificate resource
 
 ## Example Usage
 

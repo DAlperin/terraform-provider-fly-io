@@ -32,13 +32,13 @@ func (t certDataSourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.D
 		MarkdownDescription: "Fly certificate data source",
 		Attributes: map[string]tfsdk.Attribute{
 			"app": {
-				MarkdownDescription: "Name of app to attach",
+				MarkdownDescription: "Name of app that is attacjed",
 				Required:            true,
 				Type:                types.StringType,
 			},
 			"id": {
 				MarkdownDescription: "ID of address",
-				Required:            true,
+				Computed:            true,
 				Type:                types.StringType,
 			},
 			"dnsvalidationinstructions": {

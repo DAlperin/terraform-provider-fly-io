@@ -179,11 +179,17 @@ func (r flyAppResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest,
 		resp.Diagnostics.AddError("Read: query failed", err.Error())
 	}
 
+	var regions []types.String
+	for _, s := range query.App.Autoscaling.Regions {
+		regions = append(regions, types.String{Value: s.Code})
+	}
+
 	data = flyAppResourceData{
 		Name:            types.String{Value: query.App.Name},
 		Network:         types.String{Value: query.App.Network},
 		Org:             types.String{Value: query.App.Organization.Id},
 		PreferredRegion: types.String{Value: query.App.Autoscaling.PreferredRegion},
+		Regions:         regions,
 	}
 
 	diags = resp.State.Set(ctx, &data)

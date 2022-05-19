@@ -17,9 +17,8 @@ Fly certificate data source
 
 ### Required
 
-- `app` (String) Name of app to attach
+- `app` (String) Name of app that is attacjed
 - `hostname` (String) hostname
-- `id` (String) ID of address
 
 ### Read-Only
 
@@ -27,5 +26,6 @@ Fly certificate data source
 - `dnsvalidationhostname` (String) DnsValidationHostname
 - `dnsvalidationinstructions` (String) DnsValidationHostname
 - `dnsvalidationtarget` (String) DnsValidationTarget
+- `id` (String) ID of address
 
 

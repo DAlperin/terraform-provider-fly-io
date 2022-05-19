@@ -11,13 +11,13 @@ resource "fly_app" "exampleApp" {
   regions = ["ewr", "ord", "lax", "mia"]
 }
 
-resource "fly_volume" "exampleVol" {
-  name       = "exampleVolume"
-  app        = "hellofromterraform"
-  size       = 10
-  region     = "ewr"
-  depends_on = [fly_app.exampleApp]
-}
+#resource "fly_volume" "exampleVol" {
+#  name       = "exampleVolume"
+#  app        = "hellofromterraform"
+#  size       = 10
+#  region     = "ewr"
+#  depends_on = [fly_app.exampleApp]
+#}
 
 resource "fly_ip" "exampleIp" {
   app        = "hellofromterraform"
@@ -37,6 +37,14 @@ resource "fly_cert" "exampleCert" {
   depends_on = [fly_app.exampleApp]
 }
 
+#resource "fly_machine" "exampleMachine" {
+#  app = "hellofromterraform"
+#  region = "iad"
+#  name = "extremelyuniquename"
+#  image = "nginx"
+#  depends_on = [fly_app.exampleApp]
+#}
+
 # Example of using resource value. Can be used to, for example set dns with other providers.
 output "testipv4" {
   value = fly_ip.exampleIp.address
@@ -44,4 +52,12 @@ output "testipv4" {
 
 output "testipv6" {
   value = fly_ip.exampleIpv6.address
+}
+
+output "certValidationTarget" {
+  value = fly_cert.exampleCert.dnsvalidationtarget
+}
+
+output "certValidationhostname" {
+  value = fly_cert.exampleCert.dnsvalidationhostname
 }
