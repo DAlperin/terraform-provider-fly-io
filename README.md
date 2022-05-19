@@ -17,6 +17,7 @@
 - volume (stable)
 - machines (beta)
   - missing:
+    - in place updates
     - machine states
     - block on machine start
     - native wireguard tunnel
