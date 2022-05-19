@@ -11,13 +11,13 @@
 ## Status
 
 ### Resources
-- app (stable)
+- app (stable, but apps will be deprecated soon. Begin to favor machines.)
 - cert (stable)
 - ip (stable)
 - volume (stable)
 - machines (beta)
   - missing:
-    - machine start/stop
+    - machine states
     - block on machine start
     - native wireguard tunnel
 - postgres (todo)
