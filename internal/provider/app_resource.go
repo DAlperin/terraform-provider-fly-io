@@ -24,6 +24,7 @@ type flyAppResourceType struct{}
 
 type flyAppResourceData struct {
 	Name            types.String   `tfsdk:"name"`
+	Id              types.String   `tfsdk:"id"`
 	Network         types.String   `tfsdk:"network"`
 	Org             types.String   `tfsdk:"org"`
 	PreferredRegion types.String   `tfsdk:"preferred_region"'`
@@ -39,6 +40,12 @@ func (ar flyAppResourceType) GetSchema(context.Context) (tfsdk.Schema, diag.Diag
 			"name": {
 				MarkdownDescription: "Name of application",
 				Required:            true,
+				Type:                types.StringType,
+			},
+			"id": {
+				MarkdownDescription: "Name of application",
+				Optional:            true,
+				Computed:            true,
 				Type:                types.StringType,
 			},
 			"network": {
@@ -127,6 +134,7 @@ func (r flyAppResource) Create(ctx context.Context, req tfsdk.CreateResourceRequ
 		}
 
 		data = flyAppResourceData{
+			Id:              types.String{Value: mresp.CreateApp.App.Name},
 			Network:         types.String{Value: mresp.CreateApp.App.Network},
 			Org:             types.String{Value: mresp.CreateApp.App.Organization.Id},
 			Name:            types.String{Value: mresp.CreateApp.App.Name},
@@ -140,6 +148,7 @@ func (r flyAppResource) Create(ctx context.Context, req tfsdk.CreateResourceRequ
 			return
 		}
 		data = flyAppResourceData{
+			Id:              types.String{Value: mresp.CreateApp.App.Name},
 			Network:         types.String{Value: mresp.CreateApp.App.Network},
 			Org:             types.String{Value: mresp.CreateApp.App.Organization.Id},
 			Name:            types.String{Value: mresp.CreateApp.App.Name},
@@ -164,9 +173,14 @@ func (r flyAppResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest,
 		return
 	}
 
-	appName := data.Name.Value
+	var appKey string
+	if !data.Name.Unknown {
+		appKey = data.Id.Value
+	} else {
+		appKey = data.Name.Value
+	}
 
-	query, err := graphql.GetFullApp(context.Background(), *r.provider.client, appName)
+	query, err := graphql.GetFullApp(context.Background(), *r.provider.client, appKey)
 	var errList gqlerror.List
 	if errors.As(err, &errList) {
 		for _, err := range errList {
@@ -186,6 +200,7 @@ func (r flyAppResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest,
 
 	data = flyAppResourceData{
 		Name:            types.String{Value: query.App.Name},
+		Id:              types.String{Value: query.App.Name},
 		Network:         types.String{Value: query.App.Network},
 		Org:             types.String{Value: query.App.Organization.Id},
 		PreferredRegion: types.String{Value: query.App.Autoscaling.PreferredRegion},
