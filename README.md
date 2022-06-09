@@ -1,3 +1,9 @@
+## This repository has moved to the [fly-apps github org](https://github.com/fly-apps/terraform-provider-fly)
+
+Please file issues over there. I'm still the main developer of the project but fly is very generously sponsoring it's developement.
+
+---
+
 # fly.io terraform provider
 
 <div style="text-align: center;">
